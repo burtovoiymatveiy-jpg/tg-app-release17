@@ -22,74 +22,69 @@
             display: flex; flex-direction: column; gap: 12px; transition: 0.3s;
         }
 
-        .header-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
         .theme-toggle {
-            background: var(--sec-bg); border: 1px solid var(--card-border); 
-            border-radius: 50%; width: 42px; height: 42px;
-            display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;
+            position: absolute; top: 12px; right: 16px; background: var(--sec-bg);
+            border: 1px solid var(--card-border); border-radius: 50%; width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000;
         }
 
-        .card { background: var(--sec-bg); border-radius: 16px; padding: 14px; border: 1px solid var(--card-border); }
+        .card { background: var(--sec-bg); border-radius: 16px; padding: 14px; border: 1px solid var(--card-border); position: relative; }
         label { font-size: 10px; color: var(--hint); font-weight: 800; text-transform: uppercase; margin-bottom: 6px; display: block; }
         
+        .input-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
         input, select, textarea {
             background: var(--bg); border: 1px solid var(--card-border); border-radius: 10px;
             color: var(--text); font-size: 16px; padding: 10px; width: 100%; box-sizing: border-box; outline: none;
         }
+        .with-tip { padding-right: 35px !important; }
 
-        .input-wrapper { position: relative; display: flex; align-items: center; width: 100%; }
         .inner-tip {
             position: absolute; right: 8px; color: var(--accent); font-weight: 700;
-            background: var(--sec-bg); width: 24px; height: 24px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 13px;
-            cursor: pointer; border: 1px solid var(--card-border); z-index: 2;
+            background: var(--sec-bg); width: 22px; height: 22px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 12px;
+            cursor: pointer; border: 1px solid var(--card-border); z-index: 5;
         }
 
-        .row { display: flex; gap: 10px; align-items: flex-end; }
-        .flex-1 { flex: 1; }
+        .row { display: flex; gap: 10px; align-items: flex-end; width: 100%; }
+        .flex-1 { flex: 1; min-width: 0; }
 
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-green); }
         .dot-online { animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(0.9); opacity: 1; } 70% { transform: scale(1.2); opacity: 0.5; } 100% { transform: scale(0.9); opacity: 1; } }
 
         .main-btn { background: var(--accent); color: white; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; margin-top: 4px; }
-        .secondary-btn { background: var(--sec-bg); border: 1px solid var(--card-border); color: var(--accent); padding: 11px; border-radius: 12px; font-size: 13px; font-weight: 600; text-align: center; flex: 1; cursor: pointer; }
+        .secondary-btn { background: var(--sec-bg); border: 1px solid var(--card-border); color: var(--accent); padding: 10px; border-radius: 12px; font-size: 13px; font-weight: 600; text-align: center; flex: 1; cursor: pointer; }
         
-        .preview-box { background: var(--sec-bg); border: 1px dashed var(--hint); border-radius: 12px; padding: 12px; font-family: monospace; font-size: 12px; white-space: pre-line; display: none; margin: 10px 0; border: 1px solid var(--accent); }
-        .preview-box.show { display: block; }
+        .preview-box { background: var(--sec-bg); border: 1px dashed var(--hint); border-radius: 12px; padding: 12px; font-family: monospace; font-size: 12px; white-space: pre-line; max-height: 0; opacity: 0; overflow: hidden; transition: 0.4s; }
+        .preview-box.show { max-height: 500px; opacity: 1; margin: 10px 0; border: 1px solid var(--accent); }
 
-        /* ИСПРАВЛЕННЫЙ ТУМБЛЕР: теперь текст и кнопка строго по центру */
-        .switch-row { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 12px 14px;
+        .advantage-item { text-align: center; flex: 1; }
+        .advantage-icon { font-size: 20px; }
+        .advantage-text { font-size: 9px; font-weight: 700; color: var(--hint); text-transform: uppercase; }
+
+        .feedback-callout {
+            background: linear-gradient(135deg, rgba(51, 144, 236, 0.08), rgba(52, 199, 89, 0.08));
+            border: 1px solid var(--card-border); border-radius: 12px; padding: 10px;
+            text-align: center; font-size: 11px; color: var(--text); line-height: 1.3;
         }
-        .switch-row span { 
-            line-height: 22px; /* Высота равна высоте тумблера */
-            display: block;
-        }
-        .switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+
+        .disclaimer { font-size: 10px; color: var(--hint); text-align: center; margin-top: 4px; line-height: 1.4; }
+
+        .switch { position: relative; display: inline-block; width: 40px; height: 22px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--toggle-off); transition: .3s; border-radius: 22px; }
         .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
         input:checked + .slider { background-color: var(--accent-green); }
         input:checked + .slider:before { transform: translateX(18px); }
-
-        .advantage-item { text-align: center; flex: 1; }
-        .advantage-icon { font-size: 20px; }
-        .advantage-text { font-size: 9px; font-weight: 700; color: var(--hint); text-transform: uppercase; }
-        
-        .version-footer { font-size: 10px; color: var(--hint); text-align: center; margin-top: 12px; opacity: 0.5; font-weight: 600; letter-spacing: 0.5px; }
-        .disclaimer { font-size: 10px; color: var(--hint); text-align: center; line-height: 1.4; }
     </style>
 </head>
 <body>
 
-<div class="header-row">
+<div class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️</div>
+
+<div class="row">
     <div class="secondary-btn" onclick="tg.openTelegramLink('https://t.me/txtandpptx')">📢 Канал</div>
     <div class="secondary-btn" onclick="tg.openTelegramLink('https://t.me/OTZblBblawarem')">⭐ Отзывы</div>
-    <div class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️</div>
 </div>
 
 <div class="card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px;">
@@ -103,12 +98,12 @@
 <div style="display: flex; justify-content: space-around; gap: 8px;">
     <div class="advantage-item"><div class="advantage-icon">⚡️</div><div class="advantage-text">Быстро</div></div>
     <div class="advantage-item"><div class="advantage-icon">💎</div><div class="advantage-text">Качество</div></div>
-    <div class="advantage-item"><div class="advantage-icon">🕒</div><div class="advantage-text">24/7</div></div>
+    <div class="advantage-item"><div class="advantage-icon">🔒</div><div class="advantage-text">Анонимно</div></div>
 </div>
 
 <div class="card">
     <label>Вид работы</label>
-    <select id="type" oninput="update()">
+    <select id="type" onchange="update()">
         <option value="Реферат">📝 Реферат</option>
         <option value="Презентация">📊 Презентация</option>
         <option value="Доклад">🎤 Доклад</option>
@@ -124,7 +119,7 @@
         <div class="flex-1">
             <label>Дедлайн</label>
             <div class="input-wrapper">
-                <input type="text" id="date" maxlength="5" oninput="update()">
+                <input type="text" id="date" maxlength="5" class="with-tip" oninput="update()">
                 <div class="inner-tip" onclick="showTip('deadline')">?</div>
             </div>
         </div>
@@ -133,98 +128,132 @@
 
 <div class="card">
     <label>Детали и бюджет</label>
-    <textarea id="details" rows="2" placeholder="Тема, оформление..." oninput="update()"></textarea>
+    <div class="input-wrapper">
+        <textarea id="details" rows="2" class="with-tip" placeholder="Тема, оформление..." oninput="update()"></textarea>
+        <div class="inner-tip" style="top: 10px;" onclick="showTip('details')">?</div>
+    </div>
     <div style="margin-top:12px">
         <label>Сумма (₽)</label>
-        <input type="text" id="price" placeholder="500" oninput="update()">
+        <input type="number" id="price" placeholder="500" oninput="update()">
     </div>
 </div>
 
-<div class="card switch-row">
+<div class="card" style="padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;">
     <span style="font-size: 14px; font-weight: 700;">🚨 Срочный заказ</span>
-    <label class="switch">
-        <input type="checkbox" id="urgent" onchange="update()">
-        <span class="slider"></span>
-    </label>
+    <label class="switch"><input type="checkbox" id="urgent" onchange="update()"><span class="slider"></span></label>
 </div>
 
 <div class="preview-box" id="preview"></div>
-<button class="main-btn" onclick="checkSubAndCopy()">Скопировать анкету</button>
+<button class="main-btn" onclick="copy()">Скопировать анкету</button>
 
-<div class="row">
-    <button class="secondary-btn" style="color:var(--accent-red)" onclick="clearAll()">🗑 Очистить</button>
-    <button class="secondary-btn" onclick="tg.openTelegramLink('https://t.me/OTZblBblawarem')">⭐ Отзыв</button>
+<div class="row" style="align-items: stretch;">
+    <button class="secondary-btn" style="color:var(--accent-red); flex: 0.3;" onclick="clearAll()">🗑</button>
+    <div class="feedback-callout" style="flex: 1; display: flex; align-items: center; justify-content: center;">
+        ✨ Буду рад отзыву в <b>Личные Сообщения</b>!
+    </div>
 </div>
 
 <div class="disclaimer">
     💳 <b>Предоплата 100%</b> | ✅ Без антиплагиата<br>
-    Работа выполняется строго по вашим деталям.
+    Работа выполняется по вашим требованиям.
 </div>
-<div class="version-footer">BETA 0.23</div>
 
 <script>
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    const now = new Date();
-    const todayStr = `${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}`;
-    document.getElementById('date').placeholder = todayStr;
+    // Функция для получения даты +7 дней
+    function getAutoDate() {
+        const d = new Date();
+        d.setDate(d.getDate() + 7);
+        return String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0');
+    }
+
+    // Ставим дату в placeholder
+    document.getElementById('date').placeholder = getAutoDate();
 
     function showTip(f) {
-        if (f === 'deadline') tg.showAlert(`Сегодня: ${todayStr}`);
+        const tips = {
+            deadline: "Укажите дату (ДД.ММ). Если оставить пустым — дедлайн будет через неделю.",
+            details: "Напишите тему и важные требования."
+        };
+        tg.showAlert(tips[f]);
+    }
+
+    function checkNight() {
+        try {
+            const options = { timeZone: 'Asia/Yakutsk', hour: 'numeric', hour12: false };
+            const h = parseInt(new Intl.DateTimeFormat('ru-RU', options).format(new Date()));
+            const isNight = h >= 23 || h < 7;
+            const stText = document.getElementById('status-text');
+            const stDot = document.getElementById('status-dot');
+            const respTime = document.getElementById('response-time');
+
+            if (isNight) {
+                stText.innerText = "Статус: Сплю";
+                stText.style.color = "var(--hint)";
+                stDot.className = "status-dot";
+                respTime.innerText = "Отвечу утром (МСК+6)";
+            } else {
+                stText.innerText = "Статус: Свободен";
+                stText.style.color = "var(--accent-green)";
+                stDot.className = "status-dot dot-online";
+                respTime.innerText = "Ответ: 5-10 мин";
+            }
+        } catch (e) { console.log(e); }
     }
 
     function toggleTheme() {
-        const isD = document.body.getAttribute('data-theme') === 'dark';
-        document.body.setAttribute('data-theme', isD ? 'light' : 'dark');
-        document.getElementById('theme-btn').innerText = isD ? '☀️' : '🌙';
+        const current = document.body.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.body.setAttribute('data-theme', next);
+        document.getElementById('theme-btn').innerText = next === 'dark' ? '🌙' : '☀️';
         tg.HapticFeedback.impactOccurred('light');
     }
 
     function update() {
         const type = document.getElementById('type').value,
               count = document.getElementById('count').value, 
-              date = document.getElementById('date').value || todayStr,
+              dateInput = document.getElementById('date').value,
+              // Если в поле пусто, берем дату через неделю
+              finalDate = dateInput || getAutoDate(),
               price = document.getElementById('price').value, 
-              det = document.getElementById('details').value || 'нет',
+              det = document.getElementById('details').value || 'не указаны',
               urg = document.getElementById('urgent').checked;
 
         document.getElementById('unit-label').innerText = type.includes("През") ? "Кол-во слайдов" : "Кол-во страниц";
         
+        const canShow = count && price;
         const preview = document.getElementById('preview');
-        if (count && price) {
-            preview.classList.add('show');
-            let h = urg ? '🚨 СРОЧНЫЙ ЗАКАЗ 🚨\n' : '';
-            preview.innerText = `${h}1. Вид: ${type}\n2. Кол-во: ${count}\n3. Дедлайн: ${date}\n4. Сумма: ${price} руб.\n5. Детали: ${det}\n---\n✅ Согласен на 100% предоплату.`;
-        } else {
-            preview.classList.remove('show');
-        }
+        preview.classList.toggle('show', !!canShow);
+
+        let header = urg ? '🚨 СРОЧНЫЙ ЗАКАЗ 🚨\n' : '';
+        preview.innerText = `${header}1. Вид: ${type}\n2. Кол-во: ${count}\n3. Дедлайн: ${finalDate}\n4. Сумма: ${price} руб.\n5. Детали: ${det}\n---\n✅ Согласен на 100% предоплату.`;
     }
 
-    function checkSubAndCopy() {
-        tg.showConfirm("Вы подписаны на канал?", (ok) => {
-            if (ok) copy();
-            else tg.openTelegramLink('https://t.me/txtandpptx');
+    function copy() {
+        const c = document.getElementById('count'), p = document.getElementById('price');
+        if (!c.value || !p.value) { 
+            tg.showAlert("Заполните количество и сумму!"); 
+            return; 
+        }
+        
+        const area = document.createElement("textarea");
+        area.value = document.getElementById('preview').innerText;
+        document.body.appendChild(area); area.select();
+        document.execCommand('copy'); document.body.removeChild(area);
+        
+        tg.HapticFeedback.notificationOccurred('success');
+        tg.showConfirm("Анкета скопирована! Отправить её @awarem?", (ok) => {
+            if (ok) tg.openTelegramLink("https://t.me/awarem");
         });
     }
 
-    async function copy() {
-        const c = document.getElementById('count').value, p = document.getElementById('price').value;
-        if (!c || !p) { tg.showAlert("Заполните поля!"); return; }
-        const text = document.getElementById('preview').innerText;
-        try {
-            await navigator.clipboard.writeText(text);
-            tg.HapticFeedback.notificationOccurred('success');
-            tg.showConfirm("Скопировано! Отправить @awarem?", (ok) => {
-                if (ok) tg.openTelegramLink("https://t.me/awarem");
-            });
-        } catch (e) { tg.showAlert("Ошибка. Скопируйте вручную."); }
-    }
-
     function clearAll() {
-        if(confirm("Очистить?")) {
+        if(confirm("Очистить все поля?")) {
             document.querySelectorAll('input, textarea').forEach(el => el.value = '');
-            document.getElementById('urgent').checked = false; update();
+            document.getElementById('urgent').checked = false;
+            update();
         }
     }
 
@@ -232,6 +261,8 @@
         document.body.setAttribute('data-theme', 'dark');
         document.getElementById('theme-btn').innerText = '🌙';
     }
+
+    checkNight();
     update();
 </script>
 </body>
