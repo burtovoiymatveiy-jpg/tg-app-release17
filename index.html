@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Заказ работы</title>
+    <title>Заказ работы @awarem</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
@@ -20,23 +20,23 @@
             display: flex; flex-direction: column; gap: 14px; transition: 0.3s;
         }
 
-        /* Skeleton Loading */
+        /* Скелетон загрузка */
         #skeleton { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; padding: 16px; box-sizing: border-box; }
-        .sk-card { background: var(--sec-bg); height: 100px; border-radius: 16px; margin-bottom: 15px; animation: pulse 1.5s infinite; }
+        .sk-card { background: var(--sec-bg); height: 80px; border-radius: 16px; margin-bottom: 15px; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
-        /* Theme Toggle Animation */
+        /* Кнопка темы */
         .theme-toggle {
             position: absolute; top: 12px; right: 16px; background: var(--sec-bg);
             border: 1px solid var(--card-border); border-radius: 50%; width: 40px; height: 40px;
             display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.4s ease; z-index: 100;
         }
-        .theme-toggle:active { transform: scale(0.8) rotate(180deg); }
+        .theme-toggle:active { transform: scale(0.8) rotate(90deg); }
 
-        .card { background: var(--sec-bg); border-radius: 16px; padding: 16px; border: 1px solid var(--card-border); position: relative; }
+        .card { background: var(--sec-bg); border-radius: 16px; padding: 16px; border: 1px solid var(--card-border); }
         .error-border { border-color: var(--accent-red) !important; animation: shake 0.3s; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 
         label { font-size: 10px; color: var(--hint); font-weight: 800; text-transform: uppercase; margin-bottom: 6px; display: block; }
         input, select, textarea {
@@ -44,29 +44,27 @@
             color: var(--text); font-size: 16px; padding: 12px; width: 100%; box-sizing: border-box; outline: none;
         }
 
-        /* Animated Receipt */
+        /* Анимированный чек */
         .preview-box {
             background: var(--sec-bg); border: 1px dashed var(--hint); border-radius: 12px;
             padding: 14px; font-family: monospace; font-size: 13px; white-space: pre-line;
-            overflow: hidden; transition: max-height 0.5s ease-in-out; max-height: 0; opacity: 0;
+            max-height: 0; opacity: 0; overflow: hidden; transition: 0.5s ease-in-out;
         }
         .preview-box.show { max-height: 500px; opacity: 1; margin-top: 10px; border: 1px solid var(--accent); }
 
-        .main-btn { background: var(--accent); color: white; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 700; width: 100%; }
+        .main-btn { background: var(--accent); color: white; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 700; width: 100%; margin-top: 5px; }
         .row { display: flex; gap: 10px; }
         .secondary-btn { background: var(--sec-bg); border: 1px solid var(--card-border); color: var(--accent); padding: 10px; border-radius: 12px; font-size: 13px; font-weight: 600; text-align: center; flex: 1; }
         
-        .disclaimer { font-size: 11px; color: var(--hint); line-height: 1.4; text-align: center; }
-        .urgent-tag { background: var(--accent-red); color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; vertical-align: middle; }
-        
-        .stats-box { text-align: center; border-top: 1px solid var(--card-border); padding-top: 10px; margin-top: 5px; }
-        .stats-num { color: var(--accent-green); font-weight: 800; font-size: 18px; }
+        .disclaimer { font-size: 11px; color: var(--hint); line-height: 1.4; text-align: center; margin-top: 10px; }
+        .stats-box { text-align: center; border-top: 1px solid var(--card-border); padding-top: 15px; margin-top: 5px; }
+        .stats-num { color: var(--accent-green); font-weight: 900; font-size: 22px; }
     </style>
 </head>
 <body>
 
 <div id="skeleton">
-    <div class="sk-card" style="height: 40px; width: 60%;"></div>
+    <div class="sk-card" style="width: 50%; height: 30px;"></div>
     <div class="sk-card"></div>
     <div class="sk-card" style="height: 150px;"></div>
     <div class="sk-card"></div>
@@ -93,20 +91,20 @@
         <option value="Переписать лекцию">🖋 Переписать лекцию</option>
     </select>
     <div class="row" style="margin-top:10px">
-        <div><label>Стр/Слайды</label><input type="number" id="count" placeholder="0" oninput="update()"></div>
-        <div><label>Дата</label><input type="text" id="date" placeholder="ДД.ММ" oninput="update()"></div>
+        <div><label id="unit-label">Стр.</label><input type="number" id="count" placeholder="0" oninput="update()"></div>
+        <div><label>Дата</label><input type="text" id="date" placeholder="ДД.ММ" maxlength="5" oninput="update()"></div>
     </div>
 </div>
 
 <div class="card">
     <label>Остальные детали</label>
-    <textarea id="details" rows="2" placeholder="Шрифт, пожелания..." oninput="update()"></textarea>
+    <textarea id="details" rows="2" placeholder="Напр: шрифт 14, список лит-ры..." oninput="update()"></textarea>
     <div style="margin-top:10px"><label>Сумма (₽)</label><input type="text" id="price" placeholder="500" oninput="update()"></div>
 </div>
 
 <div class="card" style="padding: 12px 16px;">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size: 14px; font-weight: 700;">🚨 Срочно</span>
+        <span style="font-size: 14px; font-weight: 700;">🚨 Срочный заказ</span>
         <input type="checkbox" id="urgent" onchange="update()" style="width:20px; height:20px;">
     </div>
 </div>
@@ -117,31 +115,33 @@
 
 <div class="row">
     <button class="secondary-btn" style="color:var(--accent-red)" onclick="clearAll()">🗑 Очистить</button>
-    <button class="secondary-btn" onclick="tg.openTelegramLink('https://t.me/awarem')">💬 Написать отзыв</button>
+    <button class="secondary-btn" onclick="tg.openTelegramLink('https://t.me/OTZblBblawarem')">✍️ Написать отзыв</button>
 </div>
 
 <div class="stats-box">
     <div class="stats-num">800+</div>
-    <div style="font-size:10px; color:var(--hint)">Довольных студентов в канале</div>
+    <div style="font-size:11px; color:var(--hint)">Довольных студентов в канале</div>
+    <div style="font-size:10px; color:var(--accent); cursor:pointer; margin-top:4px;" onclick="tg.openTelegramLink('https://t.me/OTZblBblawarem')">t.me/OTZblBblawarem</div>
 </div>
 
 <div class="disclaimer">
     💳 <b>Предоплата 100%</b><br>
-    ⚠️ Я не несу ответственности, если преподаватель изменил задание после начала работы.<br>
-    ✅ Нажимая «Копировать», вы подтверждаете, что работа будет использована там, <b>где нет проверки на антиплагиат</b>.
+    ⚠️ Я не несу ответственности, если условия были изменены после начала работы.<br>
+    ✅ Нажимая «Копировать», вы подтверждаете использование работы там, <b>где нет проверки на антиплагиат</b>.
 </div>
 
 <script>
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    // Skeleton
-    setTimeout(() => document.getElementById('skeleton').style.display = 'none', 1500);
+    // Скелетон
+    setTimeout(() => document.getElementById('skeleton').style.display = 'none', 1200);
 
     function toggleTheme() {
         const isDark = document.body.getAttribute('data-theme') === 'dark';
         document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
         document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
+        tg.HapticFeedback.impactOccurred('light');
     }
 
     if (tg.colorScheme === 'dark') {
@@ -151,23 +151,34 @@
 
     function update() {
         const type = document.getElementById('type').value;
-        const count = document.getElementById('count').value;
-        const date = document.getElementById('date').value;
-        const price = document.getElementById('price').value;
+        const countInput = document.getElementById('count');
+        const dateInput = document.getElementById('date');
+        const priceInput = document.getElementById('price');
         const details = document.getElementById('details').value || 'нет';
         const isUrgent = document.getElementById('urgent').checked;
 
-        if (count && date && price) {
+        // Маска даты: ставим точку после 2 цифр
+        let val = dateInput.value.replace(/\D/g, '');
+        if (val.length > 2) {
+            val = val.substring(0, 2) + '.' + val.substring(2, 4);
+        }
+        dateInput.value = val;
+
+        // Показ чека при заполнении основных полей
+        if (countInput.value && dateInput.value.length === 5 && priceInput.value) {
             document.getElementById('preview').classList.add('show');
+        } else {
+            document.getElementById('preview').classList.remove('show');
         }
 
         let unit = type.includes("През") ? "слайдов" : (type.includes("Перепис") ? "листов" : "страниц");
+        document.getElementById('unit-label').innerText = type.includes("През") ? "Слайдов" : "Стр.";
+
         let header = isUrgent ? '🚨 СРОЧНЫЙ ЗАКАЗ 🚨\n' : '';
-        
         const text = `${header}1. Вид: ${type}
-2. Кол-во ${unit}: ${count}
-3. Срок: ${date}
-4. Сумма: ${price} руб.
+2. Количество ${unit}: ${countInput.value || '___'}
+3. Срок: ${dateInput.value || '___'}
+4. Сумма: ${priceInput.value || '___'} руб.
 5. План/Титульник: (пришлю)
 6. ФИО: (укажу в чате)
 7. Детали: ${details}
@@ -178,27 +189,34 @@
     }
 
     function copy() {
-        const count = document.getElementById('count');
-        const date = document.getElementById('date');
-        const price = document.getElementById('price');
-
-        if (!count.value || !date.value || !price.value) {
-            [count, date, price].forEach(el => { if(!el.value) el.classList.add('error-border') });
-            tg.showAlert("Заполните основные поля!");
-            setTimeout(() => { [count, date, price].forEach(el => el.classList.remove('error-border')) }, 2000);
+        const c = document.getElementById('count'), d = document.getElementById('date'), p = document.getElementById('price');
+        if (!c.value || d.value.length < 5 || !p.value) {
+            [c, d, p].forEach(el => { if(!el.value || el.value.length < 5) el.classList.add('error-border') });
+            tg.showAlert("Заполните Стр, Дату (ДД.ММ) и Сумму!");
+            setTimeout(() => { [c, d, p].forEach(el => el.classList.remove('error-border')) }, 1500);
             return;
         }
 
-        navigator.clipboard.writeText(document.getElementById('preview').innerText);
+        const text = document.getElementById('preview').innerText;
+        
+        // Резервный метод копирования
+        const area = document.createElement("textarea");
+        area.value = text;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand('copy');
+        document.body.removeChild(area);
+
         tg.HapticFeedback.notificationOccurred('success');
-        tg.showAlert("Анкета готова! Отправляй в ЛС @awarem");
-        tg.openTelegramLink("https://t.me/awarem");
+        tg.showAlert("Анкета скопирована! Отправь её @awarem");
+        setTimeout(() => tg.openTelegramLink("https://t.me/awarem"), 800);
     }
 
     function clearAll() {
-        if(confirm("Очистить всю анкету?")) {
+        if(confirm("Очистить все поля?")) {
             document.querySelectorAll('input, textarea').forEach(el => el.value = '');
-            document.getElementById('preview').classList.remove('show');
+            document.getElementById('urgent').checked = false;
+            update();
             tg.HapticFeedback.impactOccurred('medium');
         }
     }
