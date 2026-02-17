@@ -26,13 +26,14 @@
             display: flex; flex-direction: column; gap: 10px;
         }
 
-        /* Подписка в одну строку */
         .sub-warning {
             background-color: rgba(255, 152, 0, 0.1);
             border: 1px solid #ff9800;
-            padding: 8px; border-radius: 10px;
-            text-align: center; font-size: 11px; font-weight: 700;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            padding: 6px; border-radius: 8px;
+            text-align: center; 
+            font-size: 10px; /* Уменьшен шрифт для одной строки */
+            font-weight: 700;
+            white-space: nowrap;
         }
 
         .anti-plag-note {
@@ -40,7 +41,6 @@
             font-size: 11px;
             font-weight: 800;
             text-align: center;
-            letter-spacing: 0.5px;
         }
 
         .input-card {
@@ -186,14 +186,13 @@
             
             document.getElementById('unit-label').innerText = label;
 
-            // Формируем текст анкеты без пустых строк и лишних надписей
             let header = isUrgent ? '🚨 СРОЧНЫЙ ЗАКАЗ 🚨\n' : '';
             const text = `${header}1. Вид работы: ${type}
 2. Количество ${unit}: ${count}
 3. Срок выполнения: ${deadline}
 4. Желаемая сумма оплаты: ${price} руб.
-5. Наличие плана/ТЗ: (прикреплю файлом)
-6. ФИО: (укажу в чате)`;
+5. Наличие плана / технического задания: (скину)
+6. ФИО заказчика и ФИО преподавателя: (укажу)`;
 
             document.getElementById('preview').innerText = text;
         }
